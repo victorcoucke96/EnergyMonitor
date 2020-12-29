@@ -1,20 +1,21 @@
 //Michael Klements
 //The DIY Life
 //27 October 2014
+#include "EmonLib.h"
+#define ADC_INPUT A0
+EnergyMonitor emon1;
 
-const int currentPin = A0;              //Assign CT input to pin 1
-double kilos = 0;
-double peakPower = 0;
-int sensorValue = 0;
 void setup() 
 { 
   Serial.begin(115200);            //Start serial communication
   Serial.println("Running");
+  pinMode(ADC_INPUT, INPUT);
 }
 
 void loop() 
 { 
   sensorValue = analogRead(currentPin);
+  
   Serial.print("sensor = ");
   Serial.println(sensorValue);
   delay (500);

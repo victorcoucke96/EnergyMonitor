@@ -12,11 +12,11 @@
 //#include "WProgram.h" un-comment for use on older versions of Arduino IDE
 #include "EmonLib.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
+// #if defined(ARDUINO) && ARDUINO >= 100
+// #include "Arduino.h"
+// #else
+// #include "WProgram.h"
+// #endif
 
 
 //--------------------------------------------------------------------------------------

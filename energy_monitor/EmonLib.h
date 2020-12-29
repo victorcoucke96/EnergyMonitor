@@ -10,15 +10,15 @@
 #ifndef EmonLib_h
 #define EmonLib_h
 
-#if defined(ARDUINO) && ARDUINO >= 100
+// #if defined(ARDUINO) && ARDUINO >= 100
 
 #include "Arduino.h"
 
-#else
+// #else
 
-#include "WProgram.h"
+// #include "WProgram.h"
 
-#endif
+// #endif
 
 // define theoretical vref calibration constant for use in readvcc()
 // 1100mV*1024 ADC steps http://openenergymonitor.org/emon/node/1186
