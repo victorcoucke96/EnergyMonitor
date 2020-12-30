@@ -5,13 +5,17 @@
 #include "EmonLib.h"
 
 #define ADC_INPUT A0
+#define ADC_BITS    10
+#define ADC_COUNTS  (1<<ADC_BITS)
 
 auto wifiCreds = WifiCredentials("Mobistar-C9901", "7MrJkczw");                                                // Your WiFi Network Name and Password
 auto deviceCreds = DeviceConfig("vZKvbLklpyKzl4rLDiCfMDDF", "maker:4Mjs1naycgnaG0lqFuHNSY76EVxCGyIqqmFwzYY0"); // Go to AllThingsTalk Maker > Devices > Your Device > Settings > Authentication to get your Device ID and Token
 auto device = Device(wifiCreds, deviceCreds);                                                                  // Create "device" object
-char *sensorAsset = "analog-example";                                                                          // Name of asset on AllThingsTalk to which you'll receive the value (automatically created below)
+char *sensorAsset = "RMS-Power";                                                                          // Name of asset on AllThingsTalk to which you'll receive the value (automatically created below)
+char *sensorAsset1 = "Energy";
 
 EnergyMonitor emon1;
+
 double kilos = 0;
 double peakPower = 0;
 unsigned long startMillis;
@@ -25,7 +29,8 @@ void setup()
 
   device.debugPort(Serial);                                             // Enable debug output from AllThingsTalk SDK.
   device.wifiSignalReporting(true);                                     // Enable AllThingsTalk WiFi SDK's feature that sends NodeMCU's WiFi Signal Strength to your AllThingsTalk Maker
-  device.createAsset(sensorAsset, "Analog Value", "sensor", "integer"); // Create asset on AllThingsTalk to send analog value to
+  device.createAsset(sensorAsset, "RMS-Power (Watts)", "sensor", "integer"); // Create asset on AllThingsTalk to send analog value to
+  device.createAsset(sensorAsset1, "Energy (Wh)", "sensor", "integer");
   device.init();                                                        // Initialize WiFi and AllThingsTalk
 
   pinMode(ADC_INPUT, INPUT);
@@ -56,10 +61,11 @@ void loop()
     Serial.print(RMSCurrent, 4);
     Serial.println("A");
     Serial.print(RMSPower);
-    device.send(sensorAsset, RMSPower); // Sends the data to AllThingsTalk. Data is sent to "sensorAsset"
     Serial.println("W");
-    Serial.print(kilos);
+    device.send(sensorAsset, RMSPower); // Sends the data to AllThingsTalk. Data is sent to "sensorAsset"
+    Serial.print(kilos,3);
     Serial.println("kWh");
+    device.send(sensorAsset1, int(kilos*1000)); // Sends the data to AllThingsTalk. Data is sent to "sensorAsset"
     Serial.print(peakPower);
     Serial.println("W");
 
